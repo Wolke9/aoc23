@@ -4,9 +4,9 @@ const loadFile = (): string => {
 };
 const re: RegExp = /[a-zA-Z]/g;
 const reNumbers: RegExp = /[0-9]/g;
-export const replaceAllNonNumerables = (lines: string[]): string[] => {
-    return lines.map((line: string) => line.replace(re, ""));
-};
+
+export const replaceAllNonNumerables = (line: string): string => line.replace(re, "");
+
 export const returnFirstAndLastDigit = (lines: string[]) => lines.map((l: string) => {
     return l[0] + "" + l.slice(-1);
 });
@@ -69,7 +69,7 @@ const main = async () => {
     const lines: string[] = f.split("\n");
 
     // first part
-    const linesNumbersOnly: string[] = replaceAllNonNumerables(lines);
+    const linesNumbersOnly: string[] =  lines.map(l => replaceAllNonNumerables(l));
     const firstAndLastDigit_p1: string[] = returnFirstAndLastDigit(linesNumbersOnly);
     const code_p1 = firstAndLastDigit_p1.map((no: string) => Number(no));
     const sum_p1 = code_p1.reduce((acc, cv) => acc + cv, 0)
@@ -77,7 +77,7 @@ const main = async () => {
 
     //second part
     const wordsToDigits: string[] = lines.map((l: string) => replaceTextWithNumber(l));
-    const onlyDigits = replaceAllNonNumerables(wordsToDigits);
+    const onlyDigits = wordsToDigits.map(w => replaceAllNonNumerables(w)); 
     const firstAndLastDigit_p2: string[] = returnFirstAndLastDigit(onlyDigits);
     const code_p2 = firstAndLastDigit_p2.map((no: string) => Number(no));
     const sum_p2 = code_p2.reduce((acc, cv) => acc + cv, 0)
